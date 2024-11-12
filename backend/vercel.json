@@ -1,0 +1,14 @@
+{
+    "builds": [
+      {
+        "src": "expense-tracker/wsgi.py",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "tracker/wsgi.py"
+      }
+    ]
+  }

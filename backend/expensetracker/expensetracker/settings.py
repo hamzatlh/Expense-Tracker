@@ -208,6 +208,7 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:5173",
     "http://localhost:8000",
     "https://accounts.google.com",
+    "https://expenseetrackee.vercel.app",
 ]
 
 CORS_ALLOW_METHODS = [

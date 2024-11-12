@@ -12,6 +12,7 @@ from rest_framework.authtoken.models import Token
 from google.auth.transport import requests
 from google.oauth2 import id_token
 
+
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
