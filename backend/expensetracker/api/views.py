@@ -1,4 +1,3 @@
-# api/views.py
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -23,25 +22,22 @@ class GoogleLoginAPIView(APIView):
 
     def post(self, request):
         try:
-            token = request.data.get('credential')  # Changed from 'token' to 'credential'
+            token = request.data.get('credential')
             if not token:
                 return Response({
                     'error': 'No token provided'
                 }, status=status.HTTP_400_BAD_REQUEST)
 
-            # Verify the token with Google
             idinfo = id_token.verify_oauth2_token(
                 token,
                 requests.Request(),
-                "922319468084-atom6vllbsqhbl7ofrk6i0tg72bs9gfv.apps.googleusercontent.com"  # Your client ID
+                "922319468084-atom6vllbsqhbl7ofrk6i0tg72bs9gfv.apps.googleusercontent.com" 
             )
 
-            # Get user information from token
             email = idinfo['email']
             first_name = idinfo.get('given_name', '')
             last_name = idinfo.get('family_name', '')
 
-            # Get or create user
             try:
                 user = User.objects.get(email=email)
             except User.DoesNotExist:
@@ -51,8 +47,7 @@ class GoogleLoginAPIView(APIView):
                     first_name=first_name,
                     last_name=last_name
                 )
-
-            # Generate or get authentication token
+                
             token, _ = Token.objects.get_or_create(user=user)
 
             return Response({
@@ -67,12 +62,12 @@ class GoogleLoginAPIView(APIView):
             })
 
         except ValueError as e:
-            print("Token verification error:", str(e))  # Add debugging
+            print("Token verification error:", str(e)) 
             return Response({
                 'error': 'Invalid token'
             }, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            print("Unexpected error:", str(e))  # Add debugging
+            print("Unexpected error:", str(e)) 
             return Response({
                 'error': str(e)
             }, status=status.HTTP_400_BAD_REQUEST)
